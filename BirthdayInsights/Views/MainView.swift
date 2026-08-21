@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MainView: View {
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
     @State var starSign: String = ""
     @State var fAar: Int = 0
     @State var fMnd: Int = 0
@@ -29,50 +31,34 @@ struct MainView: View {
     @State private var birthSeason: String = ""
     @State private var generationName: String = ""
 
+    private var usesRegularWidthLayout: Bool {
+        horizontalSizeClass == .regular
+    }
+
+    private var insightColumns: [GridItem] {
+        Array(repeating: GridItem(.flexible(), spacing: 12), count: usesRegularWidthLayout ? 3 : 2)
+    }
+
+    private var symbolColumns: [GridItem] {
+        Array(repeating: GridItem(.flexible(), spacing: 12), count: usesRegularWidthLayout ? 3 : 1)
+    }
+
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("Fødselsdagsinnsikt")
-                            .font(.largeTitle)
-                            .bold()
-                        Text("Se alder, neste bursdag og nyttige dato- og kalenderinnsikter basert på fødselsdatoen din.")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                    }
-
-                    VStack(spacing: 12) {
-                        DatePicker("Fødselsdato", selection: $selectedBirthDate, in: ...Date(), displayedComponents: .date)
-                            .datePickerStyle(.compact)
-                            .labelsHidden()
-                            .frame(maxWidth: .infinity)
-
-                        Picker("Kjønn", selection: $selectedGender) {
-                            Text("Kvinne").tag(0)
-                            Text("Mann").tag(1)
+                    if usesRegularWidthLayout {
+                        HStack(alignment: .top, spacing: 20) {
+                            headerAndControls
+                            heroImage
                         }
-                        .pickerStyle(.segmented)
                     }
-                    .padding()
-                    .background(Color(.secondarySystemBackground))
-                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                    .onChange(of: selectedBirthDate) {
-                        updateFromSelection()
-                    }
-                    .onChange(of: selectedGender) {
-                        updateFromSelection()
+                    else {
+                        headerAndControls
+                        heroImage
                     }
 
-                    Image(bilde)
-                        .resizable()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 260)
-                        .scaledToFit()
-                        .cornerRadius(24)
-                        .accessibilityHidden(true)
-
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                    LazyVGrid(columns: insightColumns, spacing: 12) {
                         InsightCard(title: "Livsfase", value: kjonn, detail: "\(fAar) år")
                         InsightCard(title: "Neste bursdag", value: "\(nextBday) dager", detail: "Til \(fAar + 1)-årsdagen")
                         InsightCard(title: "Levd så langt", value: "\(daysLived) dager", detail: "\(fMnd) måneder og \(fDay) dager siden sist årsdag")
@@ -89,7 +75,7 @@ struct MainView: View {
                             .foregroundStyle(.secondary)
                     }
 
-                    HStack(spacing: 12) {
+                    LazyVGrid(columns: symbolColumns, spacing: 12) {
                         InsightSymbolCard(
                             imageName: starSign.isEmpty ? "Bomb2" : starSign,
                             title: "Vestlig",
@@ -136,6 +122,7 @@ struct MainView: View {
                         updateFromSelection()
                     }
                 }
+                .frame(maxWidth: usesRegularWidthLayout ? 980 : .infinity, alignment: .leading)
                 .navigationDestination(isPresented: $starSignIsTapped) {
                     StarSignDetailView(starSign: $starSign, isThirteenStarSigns: $isThirteenStarSigns)
                 }
@@ -162,7 +149,53 @@ struct MainView: View {
             updateFromSelection()
         }
     }
-    
+
+    private var headerAndControls: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Fødselsdagsinnsikt")
+                    .font(.largeTitle)
+                    .bold()
+                Text("Se alder, neste bursdag og nyttige dato- og kalenderinnsikter basert på fødselsdatoen din.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+
+            VStack(spacing: 12) {
+                DatePicker("Fødselsdato", selection: $selectedBirthDate, in: ...Date(), displayedComponents: .date)
+                    .datePickerStyle(.compact)
+                    .labelsHidden()
+                    .frame(maxWidth: .infinity)
+
+                Picker("Kjønn", selection: $selectedGender) {
+                    Text("Kvinne").tag(0)
+                    Text("Mann").tag(1)
+                }
+                .pickerStyle(.segmented)
+            }
+            .padding()
+            .background(Color(.secondarySystemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .onChange(of: selectedBirthDate) {
+                updateFromSelection()
+            }
+            .onChange(of: selectedGender) {
+                updateFromSelection()
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var heroImage: some View {
+        Image(bilde)
+            .resizable()
+            .frame(maxWidth: .infinity)
+            .frame(height: usesRegularWidthLayout ? 320 : 260)
+            .scaledToFit()
+            .cornerRadius(24)
+            .accessibilityHidden(true)
+    }
+
     private func updateFromSelection() {
         let calendar = Calendar.current
         let day = calendar.component(.day, from: selectedBirthDate)

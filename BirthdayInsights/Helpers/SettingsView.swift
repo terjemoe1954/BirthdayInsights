@@ -46,19 +46,20 @@ struct SettingsView: View {
                 .accessibilityLabel("App Appearance")
                 .accessibilityHint("Choose between System, Light, or Dark appearance")
             }
-            Section("About Birthday Insights") {
-                VStack(alignment: .leading, spacing: 8) {
-                    Label("Birthday insights", systemImage: "calendar")
-                    Text("Birthday Insights viser alder, neste bursdag, ukedag ved fødsel og enkle kalenderreferanser fra flere tradisjoner.")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
+            Section("Contact") {
+                Link(destination: URL(string: Constants.web)!,
+                     label: {
+                    Label("Les VG", systemImage: "globe")
+                })
+                HStack {
+                    Image(systemName: "envelope")
+                    Link("Kontakt meg via mail",
+                         destination: URL(string: Constants.email)!)
                 }
-
-                VStack(alignment: .leading, spacing: 8) {
-                    Label("Reference content", systemImage: "book")
-                    Text("Stjernetegn, kinesisk dyrekrets og vediske tegn vises som sekundære oppslag.")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
+                HStack {
+                    Image(systemName: "phone")
+                    Link("Ring meg",
+                         destination: URL(string: Constants.phone)!)
                 }
             }
         }
