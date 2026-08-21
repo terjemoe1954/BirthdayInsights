@@ -1,0 +1,124 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2870
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 HelveticaNeue;\f1\fnil\fcharset0 .AppleSystemUIFontMonospaced-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0\c84706;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading60\pardirnatural\partightenfactor0
+
+\f0\fs26 \cf2 For your GitHub goal, the clean approach is not just renaming inside Xcode. It\'92s:\
+\
+1. Keep the current old app repo as-is.\
+2. Duplicate this local project folder.\
+3. Rename the duplicate to the new project name.\
+4. Open the duplicate in Xcode and rename the project/target there.\
+5. Create a new GitHub repo for the duplicate.\
+\
+That avoids mixing the old app history with the new app identity.\
+\
+Use a new project name like:\
+\'95 
+\f1 BirthdayInsights
+\f0 \
+\'95 repo name: 
+\f1 birthday-insights-ios
+\f0 \
+\'95 bundle ID already fits: 
+\f1 com.terjemoe.birthdayinsights
+\f0 \
+\
+Because Xcode is open, I should not try to rename the project file from here. The safe manual steps in Xcode are:\
+\
+1. Quit Xcode.\
+2. Duplicate 
+\f1 /Users/terjemoe/Desktop/MyApps/LuckyMe
+\f0  in Finder.\
+3. Rename the copied folder to 
+\f1 BirthdayInsights
+\f0 .\
+4. Open 
+\f1 BirthdayInsights/LuckyMe.xcodeproj
+\f0 .\
+5. In Xcode, rename the project and target from 
+\f1 LuckyMe
+\f0  to 
+\f1 BirthdayInsights
+\f0 .\
+6. Let Xcode update schemes and references.\
+7. Confirm the app still uses:\
+   \'95 Display name: 
+\f1 Birthday Insights
+\f0 \
+   \'95 Bundle ID: 
+\f1 com.terjemoe.birthdayinsights
+\f0 \
+\
+Then create the new repo:\
+\
+cd /Users/terjemoe/Desktop/MyApps/BirthdayInsights\
+git init\
+git add .\
+git commit -m "Initial commit for Birthday Insights"\
+git branch -M main\
+git remote add origin <your-new-github-repo-url>\
+git push -u origin main\
+\
+For App Store text, use this set:\
+\
+App name:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading60\pardirnatural\partightenfactor0
+
+\f1 \cf2 Birthday Insights
+\f0 \
+\
+Subtitle:\
+
+\f1 Age, birthday and date insights
+\f0 \
+\
+Keywords:\
+
+\f1 birthday, age, date, calendar, milestones, generation, zodiac
+\f0 \
+\
+Description:\
+\
+Birthday Insights helps you explore useful information based on a birth date.\
+\
+Use the app to see:\
+\'95 Current age in years, months, and days\
+\'95 Days remaining until the next birthday\
+\'95 Total days lived\
+\'95 Weekday of birth\
+\'95 Seasonal context for the birth date\
+\'95 A generation label based on birth year\
+\
+The app also includes optional cultural and calendar reference content, such as Western zodiac, Chinese zodiac, and Vedic sign lookups as secondary material.\
+\
+Birthday Insights is designed as a simple and lightweight personal date-insights app.\
+\
+Review notes:\
+\
+Hello App Review,\
+\
+Thank you for reviewing my app.\
+\
+I updated the app to change its primary purpose and presentation. The app is now focused on birthday insights and date-based reference information rather than astrology as the main experience.\
+\
+The main screen now highlights:\
+- current age\
+- days lived\
+- time until the next birthday\
+- weekday of birth\
+- seasonal context\
+- generation label\
+\
+Western zodiac, Chinese zodiac, and Vedic sign content are now secondary optional reference sections.\
+\
+I also updated the app identity and presentation to reflect this new purpose.\
+\
+I respectfully ask that the new version be reconsidered.\
+\
+Best regards,\
+Terje Moe\
+\
+Once you\'92ve duplicated and renamed the project in Xcode, I can help you do a final cleanup pass before you push the new repo.}
