@@ -46,21 +46,10 @@ struct SettingsView: View {
                 .accessibilityLabel("App Appearance")
                 .accessibilityHint("Choose between System, Light, or Dark appearance")
             }
-            Section("Contact") {
-                Link(destination: URL(string: Constants.web)!,
-                     label: {
-                    Label("Les VG", systemImage: "globe")
-                })
-                HStack {
-                    Image(systemName: "envelope")
-                    Link("Kontakt meg via mail",
-                         destination: URL(string: Constants.email)!)
-                }
-                HStack {
-                    Image(systemName: "phone")
-                    Link("Ring meg",
-                         destination: URL(string: Constants.phone)!)
-                }
+            Section("About") {
+                Text("Birthday Insights shows birthday-based facts and reference information calculated locally on your device.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
             }
         }
         .navigationTitle("Settings")
